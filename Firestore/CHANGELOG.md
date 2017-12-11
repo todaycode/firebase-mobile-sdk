@@ -1,3 +1,8 @@
+# Firestore API Branch
+- [changed] For non-existing documents, DocumentSnapshot.data() now returns `nil`
+  instead of throwing an exception. A non-nullable QueryDocumentSnapshot is
+  introduced for Queries to reduce the number of nil-checks in your code.
+
 # Unreleased
 
 # v0.9.4
