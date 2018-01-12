@@ -18,6 +18,7 @@
 #import <XCTest/XCTest.h>
 
 #import "Firestore/Example/Tests/Util/XCTestCase+Await.h"
+#import "Firestore/Source/Core/FSTTypes.h"
 
 @class FIRCollectionReference;
 @class FIRDocumentSnapshot;

@@ -16,6 +16,8 @@
 
 #import <XCTest/XCTest.h>
 
+#import "Firestore/Source/Core/FSTTypes.h"
+
 @interface XCTestCase (Await)
 
 /**

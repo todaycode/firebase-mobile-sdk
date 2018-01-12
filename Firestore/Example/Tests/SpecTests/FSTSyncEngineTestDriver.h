@@ -17,6 +17,7 @@
 #import <Foundation/Foundation.h>
 
 #import "Firestore/Source/Core/FSTTypes.h"
+#import "Firestore/Source/Remote/FSTRemoteStore.h"
 
 @class FSTDocumentKey;
 @class FSTMutation;
