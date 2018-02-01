@@ -479,7 +479,7 @@ static NSString *const kFIRMessagingPlistAutoInitEnabled =
   [_messagingUserDefaults setBool:autoInitEnabled
                            forKey:kFIRMessagingUserDefaultsKeyAutoInitEnabled];
   if (!isFCMAutoInitEnabled && autoInitEnabled) {
-    self.defaultFcmToken = [self FCMToken];
+    self.defaultFcmToken = [self.instanceIDProxy token];
   }
 }
 
@@ -826,7 +826,7 @@ static NSString *const kFIRMessagingPlistAutoInitEnabled =
 #pragma mark - Notifications
 
 - (void)didReceiveDefaultInstanceIDToken:(NSNotification *)notification {
-  if (![notification.object isKindOfClass:[NSString class]]) {
+  if (notification.object && ![notification.object isKindOfClass:[NSString class]]) {
     FIRMessagingLoggerDebug(kFIRMessagingMessageCodeMessaging015,
                             @"Invalid default FCM token type %@",
                             NSStringFromClass([notification.object class]));
