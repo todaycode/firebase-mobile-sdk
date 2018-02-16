@@ -57,6 +57,9 @@ if(CLANG OR GNU)
       APPEND common_flags
      -Wconditional-uninitialized -Werror=return-type -Winfinite-recursion -Wmove
      -Wrange-loop-analysis -Wunreachable-code
+
+     # Options added to match apple recommended project settings
+     -Wcomma
     )
   endif()
 
