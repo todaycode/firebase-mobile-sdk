@@ -125,7 +125,9 @@ static NSString *const kFIRMessagingPlistAutoInitEnabled =
 @end
 
 @interface FIRMessaging ()<FIRMessagingClientDelegate, FIRMessagingReceiverDelegate,
-                           FIRReachabilityDelegate>
+                           FIRReachabilityDelegate> {
+  BOOL _shouldEstablishDirectChannel;
+}
 
 // FIRApp properties
 @property(nonatomic, readwrite, copy) NSString *fcmSenderID;
@@ -180,14 +182,6 @@ static NSString *const kFIRMessagingPlistAutoInitEnabled =
   [self.reachability stop];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [self teardown];
-}
-
-- (void)setRemoteMessageDelegate:(id<FIRMessagingDelegate>)delegate {
-  _delegate = delegate;
-}
-
-- (id<FIRMessagingDelegate>)remoteMessageDelegate {
-  return self.delegate;
 }
 
 #pragma mark - Config
