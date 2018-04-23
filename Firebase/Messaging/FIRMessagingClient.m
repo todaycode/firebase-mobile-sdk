@@ -184,7 +184,6 @@ static NSUInteger FIRMessagingServerPort() {
     handler(result, error);
   };
 
-  [self.registrar tryToLoadValidCheckinInfo];
   [self.registrar updateSubscriptionToTopic:topic
                                   withToken:token
                                     options:options
@@ -265,7 +264,6 @@ static NSUInteger FIRMessagingServerPort() {
   }
   self.lastDisconnectedTimestamp = FIRMessagingCurrentTimestampInMilliseconds();
   self.connectHandler = handler;
-  [self.registrar tryToLoadValidCheckinInfo];
   [self connect];
 }
 
@@ -278,21 +276,17 @@ static NSUInteger FIRMessagingServerPort() {
   }
 
   self.stayConnected = YES;
-  BOOL isRegistrationComplete = [self.registrar hasValidCheckinInfo];
-
-  if (!isRegistrationComplete) {
-    if (![self.registrar tryToLoadValidCheckinInfo]) {
-      // Checkin info is not available. This may be due to the checkin still being fetched.
-      if (self.connectHandler) {
-        NSError *error = [NSError errorWithFCMErrorCode:kFIRMessagingErrorCodeMissingDeviceID];
-        self.connectHandler(error);
-      }
-      FIRMessagingLoggerDebug(kFIRMessagingMessageCodeClient009,
-                              @"Failed to connect to MCS. No deviceID and secret found.");
-      // Return for now. If checkin is, in fact, retrieved, the
-      // |kFIRMessagingCheckinFetchedNotification| will be fired.
-      return;
+  if (![self.registrar tryToLoadValidCheckinInfo]) {
+    // Checkin info is not available. This may be due to the checkin still being fetched.
+    if (self.connectHandler) {
+      NSError *error = [NSError errorWithFCMErrorCode:kFIRMessagingErrorCodeMissingDeviceID];
+      self.connectHandler(error);
     }
+    FIRMessagingLoggerDebug(kFIRMessagingMessageCodeClient009,
+                            @"Failed to connect to MCS. No deviceID and secret found.");
+    // Return for now. If checkin is, in fact, retrieved, the
+    // |kFIRMessagingCheckinFetchedNotification| will be fired.
+    return;
   }
   [self setupConnectionAndConnect];
 }
