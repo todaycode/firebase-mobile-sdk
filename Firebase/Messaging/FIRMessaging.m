@@ -125,9 +125,7 @@ static NSString *const kFIRMessagingPlistAutoInitEnabled =
 @end
 
 @interface FIRMessaging ()<FIRMessagingClientDelegate, FIRMessagingReceiverDelegate,
-                           FIRReachabilityDelegate> {
-  BOOL _shouldEstablishDirectChannel;
-}
+                           FIRReachabilityDelegate>
 
 // FIRApp properties
 @property(nonatomic, readwrite, copy) NSString *fcmSenderID;
