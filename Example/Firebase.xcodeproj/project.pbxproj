@@ -6913,6 +6913,10 @@
 				INFOPLIST_FILE = "Messaging/App/iOS/Messaging-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-all_load",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.FirebaseMessagingSample.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -6939,6 +6943,10 @@
 				INFOPLIST_FILE = "Messaging/App/iOS/Messaging-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-all_load",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.FirebaseMessagingSample.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -8125,6 +8133,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Database/App/iOS/Database-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-all_load",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.google.Database-Example-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -8145,6 +8157,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Database/App/iOS/Database-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-all_load",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.google.Database-Example-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -8245,6 +8261,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Auth/App/iOS/Auth-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-all_load",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.google.Auth-Example-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -8268,6 +8288,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Auth/App/iOS/Auth-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-all_load",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.google.Auth-Example-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -8671,6 +8695,10 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Storage/App/iOS/Storage-Info.plist";
 				MODULE_NAME = ExampleApp;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-all_load",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.google.Storage-Example-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -8693,6 +8721,10 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Storage/App/iOS/Storage-Info.plist";
 				MODULE_NAME = ExampleApp;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-all_load",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.google.Storage-Example-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -8820,6 +8852,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Core/App/iOS/Core-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-all_load",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.google.Core-Example-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -8838,6 +8874,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Core/App/iOS/Core-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-all_load",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.google.Core-Example-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
