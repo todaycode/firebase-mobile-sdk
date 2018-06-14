@@ -14,23 +14,23 @@
 
 include(FindPackageHandleStandardArgs)
 
-set(BINARY_DIR ${FIREBASE_INSTALL_DIR}/external/protobuf)
+set(root ${FIREBASE_INSTALL_DIR})
 
 find_path(
   PROTOBUF_INCLUDE_DIR google/protobuf/stubs/common.h
-  HINTS ${BINARY_DIR}/src/protobuf/src
+  HINTS ${root}/include
 )
 
 find_library(
   PROTOBUF_LIBRARY
   NAMES protobuf protobufd
-  HINTS ${BINARY_DIR}/src/protobuf-build
+  HINTS ${root}/lib
 )
 
 find_library(
   PROTOBUFLITE_LIBRARY
   NAMES protobuf-lite protobuf-lited
-  HINTS ${BINARY_DIR}/src/protobuf-build
+  HINTS ${BINARY_DIR}/lib
 )
 
 find_package_handle_standard_args(

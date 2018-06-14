@@ -13,6 +13,7 @@
 # limitations under the License.
 
 include(ExternalProject)
+include(ExternalProjectFlags)
 
 if(WIN32 OR LEVELDB_ROOT)
   # If the user has supplied a LEVELDB_ROOT then just use it. Add an empty
@@ -41,15 +42,17 @@ else()
       $<$<CONFIG:Release>:${CMAKE_CXX_FLAGS_RELEASE}>"
   )
 
+  ExternalProject_StandardArgs(
+    EP_LEVELDB
+    leveldb
+  )
+
   ExternalProject_Add(
     leveldb
 
-    DOWNLOAD_DIR ${PROJECT_BINARY_DIR}/downloads
     DOWNLOAD_NAME leveldb-v1.20.tar.gz
     URL https://github.com/google/leveldb/archive/v1.20.tar.gz
     URL_HASH SHA256=f5abe8b5b209c2f36560b75f32ce61412f39a2922f7045ae764a2c23335b6664
-
-    PREFIX ${PROJECT_BINARY_DIR}/external/leveldb
 
     # LevelDB's configuration is done in the Makefile
     CONFIGURE_COMMAND ""
@@ -64,11 +67,9 @@ else()
       env CXXFLAGS=${LEVELDB_CXX_FLAGS} OPT=${LEVELDB_OPT}
         make -j out-static/libleveldb.a
 
-    INSTALL_DIR ${FIREBASE_INSTALL_DIR}
-
-    UPDATE_COMMAND ""
     INSTALL_COMMAND ""
-    TEST_COMMAND ""
+
+    ${EP_LEVELDB}
   )
 
 endif(WIN32 OR LEVELDB_ROOT)

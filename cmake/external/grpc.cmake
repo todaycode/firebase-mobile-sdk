@@ -29,10 +29,10 @@ else()
   )
 
   set(
-    CMAKE_ARGS
-    -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
+    cmake_args
     -DgRPC_BUILD_TESTS:BOOL=OFF
-    -DBUILD_SHARED_LIBS:BOOL=OFF
+
+    -DgRPC_PROTOBUF_PROVIDER=package
 
     # TODO(rsgowman): We're currently building nanopb twice; once via grpc, and
     # once via nanopb. The version from grpc is the one that actually ends up
@@ -51,7 +51,7 @@ else()
   find_package(ZLIB)
   if(ZLIB_FOUND)
     list(
-      APPEND CMAKE_ARGS
+      APPEND cmake_args
       -DgRPC_ZLIB_PROVIDER:STRING=package
       -DZLIB_INCLUDE_DIR=${ZLIB_INCLUDE_DIR}
       -DZLIB_LIBRARY=${ZLIB_LIBRARY}
@@ -62,31 +62,34 @@ else()
       APPEND GIT_SUBMODULES
       third_party/zlib
     )
-
   endif(ZLIB_FOUND)
 
+  ExternalProject_StandardArgs(
+    EP_GRPC
+    grpc
+    CMAKE_ARGS ${cmake_args}
+  )
+
   ExternalProject_GitSource(
-    GRPC_GIT
+    EP_GRPC_GIT
     GIT_REPOSITORY "https://github.com/grpc/grpc.git"
     GIT_TAG "v1.8.3"
     GIT_SUBMODULES ${GIT_SUBMODULES}
   )
 
+  ExternalProject_BuildCommand(build TARGET grpc)
+
   ExternalProject_Add(
     grpc
+    DEPENDS
+      protobuf
 
-    ${GRPC_GIT}
+    ${EP_GRPC}
+    ${EP_GRPC_GIT}
 
-    PREFIX ${PROJECT_BINARY_DIR}/external/grpc
+    BUILD_COMMAND ${build}
 
-    CMAKE_ARGS
-      ${CMAKE_ARGS}
-
-    BUILD_COMMAND
-      ${CMAKE_COMMAND} --build . --target grpc
-
-    UPDATE_COMMAND ""
-    TEST_COMMAND ""
+    # The standard install target builds everything :-(
     INSTALL_COMMAND ""
   )
 

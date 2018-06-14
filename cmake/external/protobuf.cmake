@@ -13,6 +13,7 @@
 # limitations under the License.
 
 include(ExternalProject)
+include(ExternalProjectFlags)
 
 # protobuf ships CMake files but not at the root of the repo, which confuses
 # CMake by default. CMake 3.7 introduced SOURCE_SUBDIR as a solution to this
@@ -22,22 +23,21 @@ include(ExternalProject)
 # CONFIGURE_COMMAND, BUILD_COMMAND, and INSTALL_COMMAND and we need to replicate
 # the logic to compose those commands here.
 
-set(
-  cmake_args
-  -DCMAKE_INSTALL_PREFIX:STRING=${FIREBASE_INSTALL_DIR}
-  -Dprotobuf_BUILD_TESTS=OFF
+ExternalProject_StandardArgs(
+  EP_PROTOBUF
+  protobuf
+
+  CMAKE_ARGS
+    -Dprotobuf_BUILD_TESTS=OFF
 )
 
-if(NOT CMAKE_CONFIGURATION_TYPES)
-  list(APPEND cmake_args "-DCMAKE_BUILD_TYPE=$<CONFIG>")
-endif()
+set(
+  cmake_args
+  ${EP_PROTOBUF_CMAKE_ARGS}
+)
 
 if(NOT (CMAKE_VERSION VERSION_LESS "3.7"))
-  set(
-    ep_args
-    SOURCE_SUBDIR cmake
-    CMAKE_ARGS ${cmake_args}
-  )
+  set(ep_args SOURCE_SUBDIR cmake)
 
 else()
   # Build up the CONFIGURE_COMMAND, which essentially is propagating the
@@ -58,17 +58,8 @@ else()
 
   list(APPEND configure ${cmake_args} "<SOURCE_DIR>/cmake")
 
-  # Build up the BUILD_COMMAND, which should invoke the default target and
-  # pass along the current configuration if this is a multi-configuration
-  # generator.
-  set(build "${CMAKE_COMMAND}" --build ".")
-  if(CMAKE_CONFIGURATION_TYPES)
-    list(APPEND build --config $<CONFIG>)
-  endif()
-
-  # The INSTALL_COMMAND is just the BUILD_COMMAND manually specifying the
-  # install target.
-  set(install ${build} --target install)
+  ExternalProject_BuildCommand(build)
+  ExternalProject_BuildCommand(install TARGET isntall)
 
   set(
     ep_args
@@ -82,15 +73,10 @@ endif()
 ExternalProject_Add(
   protobuf
 
-  DOWNLOAD_DIR ${PROJECT_BINARY_DIR}/downloads
   DOWNLOAD_NAME protobuf-v3.5.11.tar.gz
   URL https://github.com/google/protobuf/archive/v3.5.1.1.tar.gz
   URL_HASH SHA256=56b5d9e1ab2bf4f5736c4cfba9f4981fbc6976246721e7ded5602fbaee6d6869
 
-  PREFIX ${PROJECT_BINARY_DIR}/external/protobuf
-
+  ${EP_PROTOBUF}
   ${ep_args}
-
-  UPDATE_COMMAND ""
-  TEST_COMMAND ""
 )

@@ -70,27 +70,11 @@ set(FIREBASE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX})
 list(INSERT CMAKE_MODULE_PATH 0 ${FIREBASE_SOURCE_DIR}/cmake)
 include(utils)
 
-# Include GoogleTest directly in the build.
-set(gtest_dir ${FIREBASE_INSTALL_DIR}/external/googletest)
-add_subdirectory(
-  ${gtest_dir}/src/googletest
-  ${gtest_dir}/src/googletest-build
-  EXCLUDE_FROM_ALL
-)
-
-# Set up aliases with the same names as available via FindGTest.
-add_library(
-  GTest::GTest ALIAS gtest
-)
-
-add_library(
-  GTest::Main ALIAS gtest_main
-)
-
-find_package(LevelDB REQUIRED)
-find_package(GRPC REQUIRED)
+find_package(GTest REQUIRED)
+find_package(LevelDB)
 find_package(Nanopb REQUIRED)
 find_package(Protobuf REQUIRED)
+find_package(GRPC REQUIRED)
 
 if(APPLE)
   find_package(FirebaseCore REQUIRED)

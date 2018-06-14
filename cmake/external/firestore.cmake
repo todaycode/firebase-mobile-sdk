@@ -13,6 +13,17 @@
 # limitations under the License.
 
 include(ExternalProject)
+include(ExternalProjectFlags)
+
+ExternalProject_StandardArgs(
+  EP_FIRESTORE
+  Firestore
+
+  CMAKE_ARGS
+    -DWITH_ASAN:BOOL=${WITH_ASAN}
+    -DWITH_TSAN:BOOL=${WITH_TSAN}
+    -DWITH_UBSAN:BOOL=${WITH_UBSAN}
+)
 
 ExternalProject_Add(
   Firestore
@@ -23,18 +34,12 @@ ExternalProject_Add(
     grpc
     nanopb
 
+  ${EP_FIRESTORE}
+
   # Lay the binary directory out as if this were a subproject. This makes it
   # possible to build and test in it directly.
-  PREFIX ${PROJECT_BINARY_DIR}/external/Firestore
   SOURCE_DIR ${PROJECT_SOURCE_DIR}/Firestore
   BINARY_DIR ${PROJECT_BINARY_DIR}/Firestore
-
-  CMAKE_ARGS
-    -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
-    -DCMAKE_INSTALL_PREFIX:PATH=${FIREBASE_INSTALL_DIR}
-    -DWITH_ASAN:BOOL=${WITH_ASAN}
-    -DWITH_TSAN:BOOL=${WITH_TSAN}
-    -DWITH_UBSAN:BOOL=${WITH_UBSAN}
 
   BUILD_ALWAYS ON
 

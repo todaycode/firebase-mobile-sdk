@@ -14,6 +14,64 @@
 
 include(CMakeParseArguments)
 
+function(ExternalProject_BuildCommand RESULT_VAR)
+  # Parse arguments
+  set(options "")
+  set(single_value "TARGET")
+  set(multi_value "")
+  cmake_parse_arguments(EP "${options}" "${single_value}" "${multi_value}" ${ARGN})
+
+  set(build "${CMAKE_COMMAND}" --build ".")
+  if(CMAKE_CONFIGURATION_TYPES)
+    list(APPEND build --config $<CONFIG>)
+  endif()
+
+  if(EP_TARGET)
+    list(APPEND build --target "${EP_TARGET}")
+  endif()
+
+  set(${RESULT_VAR} ${build} PARENT_SCOPE)
+endfunction()
+
+function(ExternalProject_StandardArgs RESULT_VAR NAME)
+  # Parse arguments
+  set(options "ENABLE_TESTS")
+  set(single_value "")
+  set(multi_value "CMAKE_ARGS")
+  cmake_parse_arguments(EP "${options}" "${single_value}" "${multi_value}" ${ARGN})
+
+  set(
+    cmake_args
+    -DCMAKE_INSTALL_PREFIX:STRING=<INSTALL_DIR>
+    -DBUILD_SHARED_LIBS:BOOL=OFF
+  )
+
+  # Pass through the current CMAKE_BUILD_TYPE only if this is a
+  # single-configuration generator.
+  if(NOT CMAKE_CONFIGURATION_TYPES)
+    list(APPEND cmake_args "-DCMAKE_BUILD_TYPE=$<CONFIG>")
+  endif()
+
+  # Path through any user-supplied arguments
+  list(APPEND cmake_args ${EP_CMAKE_ARGS})
+
+  set(
+    result
+    PREFIX "${PROJECT_BINARY_DIR}/external/${NAME}"
+    DOWNLOAD_DIR "${PROJECT_BINARY_DIR}/downloads"
+    INSTALL_DIR "${PROJECT_BINARY_DIR}/opt"
+    CMAKE_ARGS ${cmake_args}
+    UPDATE_COMMAND ""
+  )
+
+  if(NOT EP_ENABLE_TESTS)
+    list(APPEND result TEST_COMMAND "")
+  endif()
+
+  set("${RESULT_VAR}" ${result} PARENT_SCOPE)
+  set("${RESULT_VAR}_CMAKE_ARGS}" ${cmake_args} PARENT_SCOPE)
+endfunction()
+
 # Assemble the git-related arguments to an external project making use of the
 # latest features where available but avoiding them when run under CMake
 # versions that don't support them.

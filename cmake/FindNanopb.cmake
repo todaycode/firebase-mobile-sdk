@@ -14,11 +14,11 @@
 
 include(FindPackageHandleStandardArgs)
 
-set(BINARY_DIR ${FIREBASE_INSTALL_DIR}/external/nanopb)
+set(root ${FIREBASE_INSTALL_DIR})
 
 find_path(
   NANOPB_INCLUDE_DIR pb.h
-  HINTS ${BINARY_DIR}/src/nanopb
+  HINTS ${root}/include
 )
 
 find_library(
