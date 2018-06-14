@@ -22,8 +22,10 @@ option(WITH_TSAN "Build with Thread Sanitizer (mutually exculsive with other san
 option(WITH_UBSAN "Build with Undefined Behavior sanitizer" OFF)
 
 # If no build type is specified, make it a debug build
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Debug)
+if(NOT CMAKE_CONFIGURATION_TYPES)
+  if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug)
+  endif()
 endif()
 
 if(APPLE)
